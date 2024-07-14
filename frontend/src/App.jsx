@@ -117,6 +117,11 @@ function App() {
     setShowAddTask(false);
   };
 
+  const handleTaskEditted = () => {
+    fetchData();
+    setShowEditTask(false);
+  };
+
   return (
     <div className="flex w-full h-screen bg-indigo-500 justify-center items-center">
       <div
@@ -239,7 +244,7 @@ function App() {
                       >
                         <IoIosCloseCircleOutline size={25} />
                       </button>
-                      <TaskEdit task={activeTask} />
+                      <TaskEdit task={activeTask} onTaskEdit={handleTaskEditted}/>
                     </div>
                   </div>
                 )}

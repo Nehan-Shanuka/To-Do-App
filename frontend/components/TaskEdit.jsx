@@ -8,24 +8,26 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 
 /* eslint-disable react/prop-types */
-function TaskEdit({ task }) {
+function TaskEdit({ onTaskEdit, task }) {
   const [taskName, setTaskName] = useState(task.name);
   const [taskCompleted, setTaskCompleted] = useState(task.completed);
   const [taskDueDate, setTaskDueDate] = useState(task.dueDate);
   const [taskDetails, setTaskDetails] = useState(task.details);
 
-  const handleUpdateTask = async () => {
-    if (
-      !taskName ||
-      taskName === "" ||
-      taskName === " " ||
-      taskDueDate === ""
-    ) {
-      alert("Fill all the required fields");
-      return;
-    }
-    console.log(task._id, taskName, taskCompleted);
+  const handleUpdateTask = async (e) => {
+    e.preventDefault();
+    
     try {
+      if (
+        !taskName ||
+        taskName === "" ||
+        taskName === " " ||
+        taskDueDate === ""
+      ) {
+        alert("Fill all the required fields");
+        return;
+      }
+      console.log(task._id, taskName, taskCompleted);
       const response = await axios.put(
         `https://nehan-to-do-app-backend.vercel.app/tasks/${task._id}`,
         {
@@ -35,12 +37,15 @@ function TaskEdit({ task }) {
           details: taskDetails,
         }
       );
+      console.log(response.data);
+      onTaskEdit();
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDueDateChange = (newDateValue) => {
+    console.log(newDateValue);
     const dateIntoJsDate = newDateValue.toDate();
     const dateISOString = dateIntoJsDate.toISOString();
     setTaskDueDate(dateISOString);
@@ -55,7 +60,7 @@ function TaskEdit({ task }) {
             EDIT THE TASK
           </h1>
 
-          <form className="flex-1 space-y-4">
+          <form className="flex-1 space-y-4" onSubmit={handleUpdateTask}>
             <div className="flex-col gap-5 justify-center items-center">
               <label
                 htmlFor="task"
@@ -102,7 +107,8 @@ function TaskEdit({ task }) {
                     <DemoItem>
                       <DatePicker
                         disablePast
-                        value={dayjs(task.dueDate)}
+                        // value={dayjs(task.dueDate)}
+                        defaultValue={dayjs(task.dueDate)}
                         onChange={(value) => handleDueDateChange(value)}
                         views={["year", "month", "day"]}
                         sx={{
@@ -137,7 +143,6 @@ function TaskEdit({ task }) {
             <div className="flex-1">
               <button
                 type="submit"
-                onClick={handleUpdateTask()}
                 className="w-full flex-1 justify-center py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 UPDATE
