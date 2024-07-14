@@ -28,12 +28,15 @@ function TaskAdd({ onTaskAdd }) {
         return;
       }
       console.log(taskName, taskDetails, taskDueDate);
-      const response = await axios.post(`http://localhost:3000/tasks`, {
-        name: taskName,
-        completed: false,
-        dueDate: taskDueDate,
-        details: taskDetails,
-      });
+      const response = await axios.post(
+        `https://nehan-to-do-app-backend.vercel.app/tasks`,
+        {
+          name: taskName,
+          completed: false,
+          dueDate: taskDueDate,
+          details: taskDetails,
+        }
+      );
       console.log(response.data);
       onTaskAdd();
     } catch (error) {
