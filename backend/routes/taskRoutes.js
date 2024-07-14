@@ -42,6 +42,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    console.log(req.body);
     const task = new Task(req.body);
     const taskCreated = await Task.create(task);
     return res.status(201).json(task);

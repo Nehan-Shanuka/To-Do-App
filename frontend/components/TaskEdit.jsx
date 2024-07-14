@@ -11,10 +11,19 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 function TaskEdit({ task }) {
   const [taskName, setTaskName] = useState(task.name);
   const [taskCompleted, setTaskCompleted] = useState(task.completed);
-  const [taskDueDate, setTaskDueDate] = useState("");
+  const [taskDueDate, setTaskDueDate] = useState(task.dueDate);
   const [taskDetails, setTaskDetails] = useState(task.details);
 
   const handleUpdateTask = async () => {
+    if (
+      !taskName ||
+      taskName === "" ||
+      taskName === " " ||
+      taskDueDate === ""
+    ) {
+      alert("Fill all the required fields");
+      return;
+    }
     console.log(task._id, taskName, taskCompleted);
     try {
       const response = await axios.put(

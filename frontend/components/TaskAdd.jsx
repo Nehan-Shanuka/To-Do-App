@@ -7,24 +7,35 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // // import AdapterDayjs from "@mui/x-date-adapter-dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import App from "../src/App";
 
 /* eslint-disable react/prop-types */
-function TaskAdd() {
+function TaskAdd({ onTaskAdd }) {
   const [taskName, setTaskName] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [taskDueDate, setTaskDueDate] = useState("");
 
-  const handleCreateTask = async () => {
+  const handleCreateTask = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post(
-        `https://nehan-to-do-app-backend.vercel.app/tasks`,
-        {
-          name: taskName,
-          completed: false,
-          dueDate: taskDueDate,
-          details: taskDetails,
-        }
-      );
+      if (
+        !taskName ||
+        taskName === "" ||
+        taskName === " " ||
+        taskDueDate === ""
+      ) {
+        alert("Fill all the required fields");
+        return;
+      }
+      console.log(taskName, taskDetails, taskDueDate);
+      const response = await axios.post(`http://localhost:3000/tasks`, {
+        name: taskName,
+        completed: false,
+        dueDate: taskDueDate,
+        details: taskDetails,
+      });
+      console.log(response.data);
+      onTaskAdd();
     } catch (error) {
       console.error(error);
     }
@@ -33,6 +44,7 @@ function TaskAdd() {
   const today = dayjs();
 
   const handleDueDateChange = (newDateValue) => {
+    console.log(newDateValue);
     const dateIntoJsDate = newDateValue.toDate();
     const dateISOString = dateIntoJsDate.toISOString();
     setTaskDueDate(dateISOString);
@@ -47,7 +59,7 @@ function TaskAdd() {
             ADD A TASK
           </h1>
 
-          <form className="flex-1 space-y-6">
+          <form className="flex-1 space-y-6" onSubmit={handleCreateTask}>
             <div className="flex-col gap-5 justify-center items-center">
               <label
                 htmlFor="task"
@@ -94,6 +106,7 @@ function TaskAdd() {
                       <DatePicker
                         defaultValue={today}
                         disablePast
+                        value={dayjs(taskDueDate)}
                         onChange={(value) => handleDueDateChange(value)}
                         views={["year", "month", "day"]}
                         sx={{ backgroundColor: "white", borderRadius: "5px" }}
@@ -107,7 +120,6 @@ function TaskAdd() {
             <div className="flex-1">
               <button
                 type="submit"
-                onClick={handleCreateTask()}
                 className="w-full flex-1 justify-center py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 CREATE
