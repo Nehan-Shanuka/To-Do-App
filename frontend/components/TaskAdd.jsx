@@ -107,7 +107,7 @@ function TaskAdd() {
             <div className="flex-1">
               <button
                 type="submit"
-                onClick={handleCreateTask}
+                onClick={handleCreateTask()}
                 className="w-full flex-1 justify-center py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 CREATE
