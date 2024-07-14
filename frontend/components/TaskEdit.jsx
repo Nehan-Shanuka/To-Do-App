@@ -18,7 +18,7 @@ function TaskEdit({ task }) {
     console.log(task._id, taskName, taskCompleted);
     try {
       const response = await axios.put(
-        `http://localhost:3000/tasks/${task._id}`,
+        `https://nehan-to-do-app-backend.vercel.app/tasks/${task._id}`,
         {
           name: taskName,
           completed: taskCompleted,
@@ -120,7 +120,7 @@ function TaskEdit({ task }) {
                 id="completed"
                 name="completed"
                 defaultChecked={task.completed}
-                onChange={(e) => setTaskCompleted(e.target.checked)}
+                onChange={() => setTaskCompleted(!taskCompleted)}
                 className="block w-6 h-6"
               />
             </div>
@@ -128,7 +128,7 @@ function TaskEdit({ task }) {
             <div className="flex-1">
               <button
                 type="submit"
-                onClick={handleUpdateTask}
+                onClick={handleUpdateTask()}
                 className="w-full flex-1 justify-center py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 UPDATE

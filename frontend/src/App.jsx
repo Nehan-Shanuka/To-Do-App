@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdDone } from "react-icons/md";
@@ -20,14 +21,16 @@ function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const fetchData = async () => {
-    const response = await axios.get(`http://localhost:3000/tasks`);
+    const response = await axios.get(
+      `https://nehan-to-do-app-backend.vercel.app/tasks`
+    );
     // console.log(response.data);
     setTasks(response.data);
   };
 
   const fetchSearchData = async () => {
     const response = await axios.get(
-      `http://localhost:3000/tasks?date=${searchDate}`
+      `https://nehan-to-do-app-backend.vercel.app/tasks?date=${searchDate}`
     );
     // console.log(response.data);
     setTasks(response.data);
@@ -74,18 +77,21 @@ function App() {
   };
 
   const handleTaskStatus = async (task_id, name, completed) => {
-    console.log(task_id, name, completed);
-    const response = await axios.put(`http://localhost:3000/tasks/${task_id}`, {
-      completed: !completed,
-    });
-    console.log(response.data);
+    // console.log(task_id, name, completed);
+    const response = await axios.put(
+      `https://nehan-to-do-app-backend.vercel.app/tasks/${task_id}`,
+      {
+        completed: !completed,
+      }
+    );
+    // console.log(response.data);
     fetchData();
   };
 
   const handleDeleteTask = async (task_id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/tasks/${task_id}`
+        `https://nehan-to-do-app-backend.vercel.app/tasks/${task_id}`
       );
       console.log(response.data);
       fetchData();
@@ -112,7 +118,6 @@ function App() {
         className={`${
           windowWidth <= 800 ? "w-3/5" : "w-2/5"
         } h-4/5 bg-white rounded-2xl flex flex-col pb-5`}
-        // style={{ width: widthOfScreen < 768 ? "100%" : "50%" }}
       >
         <h1 className="flex-none text-3xl font-bold pt-5 pl-5">
           My To-Do List
@@ -142,7 +147,7 @@ function App() {
             <div className="fixed inset-0 flex items-center justify-center bg-opacity-90 bg-gray-900">
               <div
                 className={`${
-                  windowWidth < 768 ? "w-3/5" : "w-1/3"
+                  windowWidth < 800 ? "w-3/5" : "w-1/3"
                 } p-5 rounded-3xl relative h-3/4 bg-teal-500`}
               >
                 <button
@@ -220,7 +225,7 @@ function App() {
                   <div className="fixed inset-0 flex items-center justify-center bg-opacity-90 bg-gray-900">
                     <div
                       className={`${
-                        windowWidth < 768 ? "w-3/5" : "w-1/3"
+                        windowWidth < 800 ? "w-3/5" : "w-1/3"
                       } p-5 rounded-3xl relative h-3/4 bg-teal-500`}
                     >
                       <button

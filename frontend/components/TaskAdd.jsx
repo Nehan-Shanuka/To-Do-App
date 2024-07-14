@@ -16,12 +16,15 @@ function TaskAdd() {
 
   const handleCreateTask = async () => {
     try {
-      const response = await axios.post(`http://localhost:3000/tasks`, {
-        name: taskName,
-        completed: false,
-        dueDate: taskDueDate,
-        details: taskDetails,
-      });
+      const response = await axios.post(
+        `https://nehan-to-do-app-backend.vercel.app/tasks`,
+        {
+          name: taskName,
+          completed: false,
+          dueDate: taskDueDate,
+          details: taskDetails,
+        }
+      );
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +43,9 @@ function TaskAdd() {
     <div className="h-full w-full bg-teal-500 rounded-lg">
       <div className="flex h-full w-full ">
         <div className="flex-1 px-6 rounded-xl">
-          <h1 className="text-2xl text-zinc-700 font-bold text-center mb-5">ADD A TASK</h1>
+          <h1 className="text-2xl text-zinc-700 font-bold text-center mb-5">
+            ADD A TASK
+          </h1>
 
           <form className="flex-1 space-y-6">
             <div className="flex-col gap-5 justify-center items-center">
